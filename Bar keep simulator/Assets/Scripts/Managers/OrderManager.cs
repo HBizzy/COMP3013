@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,15 +13,20 @@ public class OrderManager : MonoBehaviour
     public List<DrinkRecipe> availableRecipes;
     public int ordersCompleted;
     public bool isOrderActive;
+    public event Action<DrinkRecipe> OnOrderGenerated;
+    public event Action<DrinkRecipe> OnOrderRemoved;
+    public event Action OnOrderUpdated;
     public void GenerateOrder()
     {
          if(currentOrders.Count < 4)
          {
-            DrinkRecipe newDrink = availableRecipes[Random.RandomRange(0, availableRecipes.Count)];
+            DrinkRecipe newDrink = availableRecipes[UnityEngine.Random.RandomRange(0, availableRecipes.Count)];
             currentOrders.Add(newDrink);
             Debug.Log($"Order Added: {newDrink.drinkName}");
             string recipeSteps = string.Join(",", newDrink.steps.Select(t => $"{t.drinkIngredient.ingredientName}"));
             Debug.Log($"Recipe: {recipeSteps}");
+
+            OnOrderGenerated?.Invoke(newDrink);
          }
          if (GameStateManager.Instance.nightManager.isNightRunning)
          {
@@ -31,6 +37,7 @@ public class OrderManager : MonoBehaviour
     public void SelectOrder(DrinkRecipe selectedRecipe)
     {
         selectedOrder = selectedRecipe;
+        OnOrderUpdated?.Invoke();
     }
     public DrinkRecipe GetCurrentOrder()
     {
@@ -68,10 +75,10 @@ public class OrderManager : MonoBehaviour
                     additionalErrorSteps++;
                 }
             }
-            currentAccuracy += correctSteps / requiredSteps * 0.6f;
-            Debug.Log($"Contents correct: {correctSteps}/{requiredSteps}");
+            currentAccuracy += (float)correctSteps / (float)requiredSteps * 0.6f;
+            Debug.Log($"Contents correct: {(float)correctSteps}/{(float)requiredSteps}");
             int lastMatchedIndex = -1;
-            int correctOrderCount = 0;
+            float correctOrderCount = 0;
             foreach (DrinkStep step in correctedSteps)
             {
                 int recipeIndex = selectedOrder.steps.IndexOf(step);
@@ -86,9 +93,9 @@ public class OrderManager : MonoBehaviour
                     continue;
                 }
             }
-            currentAccuracy += correctOrderCount / selectedOrder.steps.Count * 0.4f;
-            Debug.Log($"Steps in order count: {correctOrderCount}/{selectedOrder.steps.Count}");
-            currentAccuracy -= additionalErrorSteps * 0.1f;
+            currentAccuracy += correctOrderCount / (float)selectedOrder.steps.Count * 0.4f;
+            Debug.Log($"Steps in order count: {correctOrderCount}/{(float)selectedOrder.steps.Count}");
+            currentAccuracy -= (float)additionalErrorSteps * 0.1f;
             Debug.Log($"Extra steps: {additionalErrorSteps}");
             Debug.Log($"Final accuracy: {currentAccuracy}");
             CompleteOrder(currentAccuracy);
@@ -105,6 +112,7 @@ public class OrderManager : MonoBehaviour
     public void ClearOrder()
     {
         currentOrders.Remove(selectedOrder);
+        OnOrderRemoved?.Invoke(selectedOrder);
         selectedOrder = null;
     }
     public bool HasActiveOrder()
@@ -114,7 +122,7 @@ public class OrderManager : MonoBehaviour
 
     public IEnumerator WaitForRandomTime()
     {
-        yield return new WaitForSeconds(Random.RandomRange(20,50));
+        yield return new WaitForSeconds(UnityEngine.Random.RandomRange(10,20));
         GenerateOrder();
     }
 }

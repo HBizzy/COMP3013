@@ -7,6 +7,7 @@ public class DrinkIngredient : ScriptableObject
 {
     public string ingredientName;
     public IngredientType ingredientType;
+    public GarnishType garnishType; //optional if garnish
     public FlavourProfile flavourProfile;
     
 }
@@ -24,6 +25,16 @@ public enum FlavourProfile
 {
     Sweet,
     Sour,
+    None,
+    //etc
+}
+
+public enum GarnishType
+{
+    Mint,
+    LemonSlice,
+    LimeSlice,
+    Olive,
     None,
     //etc
 }

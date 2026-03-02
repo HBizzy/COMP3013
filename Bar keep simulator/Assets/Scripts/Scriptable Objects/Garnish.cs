@@ -10,13 +10,3 @@ public class Garnish : ScriptableObject
     public FlavourProfile flavourTag;
 
 }
-
-public enum GarnishType
-{
-    Mint,
-    LemonSlice,
-    LimeSlice,
-    Olive,
-    None,
-    //etc
-}
