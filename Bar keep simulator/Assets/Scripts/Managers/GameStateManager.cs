@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameStateManager : MonoBehaviour
 {
@@ -10,11 +13,13 @@ public class GameStateManager : MonoBehaviour
 
     private GameState currentState;
     private GameState previousState;
-    private int night = 1;
+    public int night = 0;
     public NightManager nightManager;
     public OrderManager orderManager;
     public EconomyManager economyManager;
     public UpgradeManager upgradeManager;
+
+    public event Action OnHubEnter;
 
     //testing
     [Header("Testing")]
@@ -54,7 +59,27 @@ public class GameStateManager : MonoBehaviour
     }
     public void OnStateEntered(GameState state)
     {
-        //load correct scene
+        switch (state)
+        {
+            case GameState.MainMenu:
+                SceneManager.LoadScene("MenuScene");
+                break;
+            case GameState.NightActive:
+                SceneManager.LoadScene("NightScene");
+                break;
+            case GameState.NightEnd:
+                SceneManager.LoadScene("HubScene");
+                StartCoroutine(updateReviewText());
+                break;
+            case GameState.FailState:
+                SceneManager.LoadScene("MenuScene");
+                break;
+
+        }
+    }
+    public void loadHub()
+    {
+        ChangeState(GameState.NightEnd);
     }
     public void OnStateExited(GameState state)
     {
@@ -62,8 +87,15 @@ public class GameStateManager : MonoBehaviour
     }
     public void StartNight()
     {
+        orderManager.currentOrders.Clear();
+        orderManager.selectedOrder = null;
+        nightManager.isNightRunning = false;
         ChangeState(GameState.NightActive);
+        night += 1;
+        orderManager.ordersCompleted = 0;
+        economyManager.nightEarnings = 0;
         nightManager.BeginNight();
+        StartCoroutine(delayStartGenerateOrder());
     }
     public void EndNight()
     {
@@ -75,9 +107,6 @@ public class GameStateManager : MonoBehaviour
         orderManager.currentOrders.Clear();
         orderManager.selectedOrder = null;
         
-
-        //show end of night summary and upgrade menu 
-        economyManager.nightEarnings = 0;
 
     }
     public void TriggerFailState()
@@ -121,12 +150,21 @@ public class GameStateManager : MonoBehaviour
             economyManager.CheckRentSuccess(1000);
         }
     }
+    public IEnumerator delayStartGenerateOrder()
+    {
+        yield return new WaitForSeconds(1.0f);
+        orderManager.GenerateOrder();
+    }
+    public IEnumerator updateReviewText()
+    {
+        yield return new WaitForSeconds(0.1f);
+        OnHubEnter?.Invoke();
+    }
 }
 
 public enum GameState
 {
     MainMenu,
-    NightStart,
     NightActive,
     NightEnd,
     FailState,

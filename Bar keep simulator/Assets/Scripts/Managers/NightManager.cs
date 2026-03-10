@@ -11,6 +11,7 @@ public class NightManager : MonoBehaviour
     public void BeginNight()
     {
         isNightRunning = true;
+        currentTimeRemaining = nightDuration;
     }
     public void UpdateTimer()
     {

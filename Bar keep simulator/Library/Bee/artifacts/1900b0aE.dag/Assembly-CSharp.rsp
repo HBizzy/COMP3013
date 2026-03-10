@@ -347,6 +347,7 @@
 "Assets/Scripts/IngrediantButton.cs"
 "Assets/Scripts/Managers/EconomyManager.cs"
 "Assets/Scripts/Managers/GameStateManager.cs"
+"Assets/Scripts/Managers/HubManager.cs"
 "Assets/Scripts/Managers/NightManager.cs"
 "Assets/Scripts/Managers/OrderManager.cs"
 "Assets/Scripts/Managers/UpgradeManager.cs"

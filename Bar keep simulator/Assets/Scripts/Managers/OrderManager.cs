@@ -18,21 +18,22 @@ public class OrderManager : MonoBehaviour
     public event Action OnOrderUpdated;
     public void GenerateOrder()
     {
-         if(currentOrders.Count < 4)
-         {
-            DrinkRecipe newDrink = availableRecipes[UnityEngine.Random.RandomRange(0, availableRecipes.Count)];
-            currentOrders.Add(newDrink);
-            Debug.Log($"Order Added: {newDrink.drinkName}");
-            string recipeSteps = string.Join(",", newDrink.steps.Select(t => $"{t.drinkIngredient.ingredientName}"));
-            Debug.Log($"Recipe: {recipeSteps}");
-
-            OnOrderGenerated?.Invoke(newDrink);
-         }
-         if (GameStateManager.Instance.nightManager.isNightRunning)
-         {
+        if (GameStateManager.Instance.nightManager.isNightRunning)
+        {
             StartCoroutine(WaitForRandomTime());
-         }
-        
+            if (currentOrders.Count < 4)
+            {
+                DrinkRecipe newDrink = availableRecipes[UnityEngine.Random.RandomRange(0, availableRecipes.Count)];
+                currentOrders.Add(newDrink);
+                Debug.Log($"Order Added: {newDrink.drinkName}");
+                string recipeSteps = string.Join(",", newDrink.steps.Select(t => $"{t.drinkIngredient.ingredientName}"));
+                Debug.Log($"Recipe: {recipeSteps}");
+
+                OnOrderGenerated?.Invoke(newDrink);
+            }
+        }
+        else { StopAllCoroutines(); }
+    
     }
     public void SelectOrder(DrinkRecipe selectedRecipe)
     {
@@ -106,6 +107,7 @@ public class OrderManager : MonoBehaviour
         if (HasActiveOrder())
         {
             GameStateManager.Instance.economyManager.CalculateDrinkPayout(selectedOrder.basePrice, accuracy);
+            ordersCompleted++;
         }
        ClearOrder();
     }
