@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,14 +10,23 @@ public class OrderTicket : MonoBehaviour
 {
     public Button button;
     public TextMeshProUGUI orderName;
+    public Image timer;
     public DrinkRecipe order;
+    public Image highlight;
+
+    public NPCType npc;
+    public float timeLeft =9999999;
+    public float maxTime;
+
+    private bool timeRunning = false;
+
     // Start is called before the first frame update
     void Start()
     {
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() => {
 
-            GameStateManager.Instance.orderManager.SelectOrder(order);
+            GameStateManager.Instance.orderManager.SelectOrder(order,npc);
             
 
         });
@@ -25,11 +35,50 @@ public class OrderTicket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (order != null && GameStateManager.Instance.orderManager.selectedOrder!=null)
+        {
+            if (GameStateManager.Instance.orderManager.selectedOrder.targetRecipe == order)
+            {
+                if (highlight != null)
+                {
+                    highlight.gameObject.SetActive(true);
+                }
+            }
+            else
+            {
+                if (highlight != null)
+                {
+                    highlight.gameObject.SetActive(false);
+                }
+            }
+        }
+        if (timeRunning)
+        {
+            timeLeft -= Time.deltaTime;
+            timer.fillAmount = timeLeft / maxTime;
+            if(GameStateManager.Instance.orderManager.selectedOrder !=null)
+            GameStateManager.Instance.orderManager.selectedOrder.percentTimeLeft = timeLeft / maxTime;
+        }
+        if (timeLeft <= 0)
+        {
+            GameStateManager.Instance.orderManager.selectedOrder = null;
+            timeRunning = false;
+            Destroy(this.gameObject);
+        }
     }
-    public void Bind(DrinkRecipe Order)
+    public void Bind(DrinkRecipe Order, NPCType npc)
     {
         order = Order;
         orderName.text = order.drinkName;
+        this.npc = npc;
+        generateTicketData();
+    }
+
+    public void generateTicketData()
+    {
+        timeLeft = UnityEngine.Random.Range(npc.minPatienceTime, npc.maxPatienceTime);
+        maxTime = timeLeft;
+        timer.fillAmount = 1.0f;
+        timeRunning = true;
     }
 }

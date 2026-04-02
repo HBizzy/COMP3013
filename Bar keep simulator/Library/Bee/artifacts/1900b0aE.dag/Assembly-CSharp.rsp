@@ -374,6 +374,7 @@
 "Assets/Scripts/Managers/NightManager.cs"
 "Assets/Scripts/Managers/OrderManager.cs"
 "Assets/Scripts/Managers/UpgradeManager.cs"
+"Assets/Scripts/OrderData.cs"
 "Assets/Scripts/OrderTicketUIController.cs"
 "Assets/Scripts/Scriptable Objects/DrinkIngredient.cs"
 "Assets/Scripts/Scriptable Objects/DrinkRecipe.cs"

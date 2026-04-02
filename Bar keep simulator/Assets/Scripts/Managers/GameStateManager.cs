@@ -133,12 +133,16 @@ public class GameStateManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            orderManager.selectedOrder = testRecipe;
+            OrderData newOrder = new OrderData();
+            newOrder.targetRecipe = testRecipe;
+            orderManager.selectedOrder = newOrder;
             orderManager.SubmitDrink(perfectSteps);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            orderManager.selectedOrder = testRecipe;
+            OrderData newOrder = new OrderData();
+            newOrder.targetRecipe = testRecipe;
+            orderManager.selectedOrder = newOrder;
             orderManager.SubmitDrink(mediumSteps);
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))

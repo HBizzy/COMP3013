@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Impatient
   m_EditorClassIdentifier: 
   npcName: Tyler
-  patienceTime: 30
+  minPatienceTime: 20
+  maxPatienceTime: 35
   tipModifier: 1.2
   personalityTag: 3

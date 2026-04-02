@@ -6,7 +6,8 @@ using UnityEngine;
 public class NPCType : ScriptableObject
 {
     public string npcName;
-    public float patienceTime;
+    public float minPatienceTime;
+    public float maxPatienceTime;
     public float tipModifier;
     public PersonalityTag personalityTag;
 
@@ -18,5 +19,6 @@ public enum PersonalityTag
     Polite,
     Rude,
     Impatient,
+    Patient,
     //etc
 }

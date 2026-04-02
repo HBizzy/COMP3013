@@ -7,6 +7,8 @@ public class OrderTicketUIController : MonoBehaviour
 {
     public Dictionary<OrderTicket, GameObject> ticketObjectPairs = new Dictionary<OrderTicket, GameObject>();
     public List<OrderTicket> orderTickets = new List<OrderTicket>();
+
+    public List<NPCType> possibleNPCs;
     public GameObject ticketPrefab;
     // Start is called before the first frame update
     void Start()
@@ -29,8 +31,9 @@ public class OrderTicketUIController : MonoBehaviour
     {
         if(orderTickets.Count < 4)
         {
+            NPCType npcChosen = possibleNPCs[UnityEngine.Random.Range(0, possibleNPCs.Count)];
             GameObject ticket = Instantiate(ticketPrefab,this.transform);
-            ticket.GetComponent<OrderTicket>().Bind(drink);
+            ticket.GetComponent<OrderTicket>().Bind(drink, npcChosen);
             orderTickets.Add(ticket.GetComponent<OrderTicket>());
             ticketObjectPairs.Add(ticket.GetComponent<OrderTicket>(), ticket);
         }

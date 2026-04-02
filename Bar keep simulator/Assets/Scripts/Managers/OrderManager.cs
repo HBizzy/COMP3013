@@ -9,7 +9,7 @@ using UnityEngine;
 public class OrderManager : MonoBehaviour
 {
     public List<DrinkRecipe> currentOrders = new List<DrinkRecipe> { };
-    public DrinkRecipe selectedOrder;  //change to order class to hold reference to npc, time limit and tip modifier
+    public OrderData selectedOrder;
     public List<DrinkRecipe> availableRecipes;
     public int ordersCompleted;
     public bool isOrderActive;
@@ -35,14 +35,16 @@ public class OrderManager : MonoBehaviour
         else { StopAllCoroutines(); }
     
     }
-    public void SelectOrder(DrinkRecipe selectedRecipe)
+    public void SelectOrder(DrinkRecipe selectedRecipe, NPCType npc)
     {
-        selectedOrder = selectedRecipe;
+        selectedOrder = new OrderData();
+        selectedOrder.targetRecipe = selectedRecipe;
+        selectedOrder.npc = npc;
         OnOrderUpdated?.Invoke();
     }
     public DrinkRecipe GetCurrentOrder()
     {
-        return selectedOrder;
+        return selectedOrder.targetRecipe;
     }
     public void SubmitDrink(List<DrinkStep> playerSteps)
     {
@@ -50,8 +52,9 @@ public class OrderManager : MonoBehaviour
     }
     public void EvaluateDrink(List<DrinkStep> playerSteps)
     {
+        selectedOrder.submittedDrink = playerSteps;
         Debug.Log("Drink Evaluation Start");
-        string recipeSteps = string.Join(",", selectedOrder.steps.Select(t => $"{t.drinkIngredient.ingredientName}"));
+        string recipeSteps = string.Join(",", selectedOrder.targetRecipe.steps.Select(t => $"{t.drinkIngredient.ingredientName}"));
         Debug.Log($"Recipe: {recipeSteps}");
         string playerStepsNames = string.Join(",", playerSteps.Select(t => $"{t.drinkIngredient.ingredientName}"));
         Debug.Log($"Recipe: {playerStepsNames}");
@@ -60,13 +63,13 @@ public class OrderManager : MonoBehaviour
             float currentAccuracy = 0;
 
             //accuracy, 50% for correct steps present, 50% for correct order, -10% per wrong step above recipe step count 
-            int requiredSteps = selectedOrder.steps.Count;
+            int requiredSteps = selectedOrder.targetRecipe.steps.Count;
             int correctSteps = 0;
             int additionalErrorSteps = 0;
             List<DrinkStep> correctedSteps = new List<DrinkStep>();
             foreach (DrinkStep step in playerSteps)
             {
-                if (selectedOrder.steps.Contains(step))
+                if (selectedOrder.targetRecipe.steps.Contains(step))
                 {
                     correctSteps++;
                     correctedSteps.Add(step);
@@ -82,7 +85,7 @@ public class OrderManager : MonoBehaviour
             float correctOrderCount = 0;
             foreach (DrinkStep step in correctedSteps)
             {
-                int recipeIndex = selectedOrder.steps.IndexOf(step);
+                int recipeIndex = selectedOrder.targetRecipe.steps.IndexOf(step);
 
                 if (recipeIndex > lastMatchedIndex)
                 {
@@ -94,11 +97,12 @@ public class OrderManager : MonoBehaviour
                     continue;
                 }
             }
-            currentAccuracy += correctOrderCount / (float)selectedOrder.steps.Count * 0.4f;
-            Debug.Log($"Steps in order count: {correctOrderCount}/{(float)selectedOrder.steps.Count}");
+            currentAccuracy += correctOrderCount / (float)selectedOrder.targetRecipe.steps.Count * 0.4f;
+            Debug.Log($"Steps in order count: {correctOrderCount}/{(float)selectedOrder.targetRecipe.steps.Count}");
             currentAccuracy -= (float)additionalErrorSteps * 0.1f;
             Debug.Log($"Extra steps: {additionalErrorSteps}");
             Debug.Log($"Final accuracy: {currentAccuracy}");
+            selectedOrder.accuracy = currentAccuracy;
             CompleteOrder(currentAccuracy);
         }
     }
@@ -106,15 +110,15 @@ public class OrderManager : MonoBehaviour
     {
         if (HasActiveOrder())
         {
-            GameStateManager.Instance.economyManager.CalculateDrinkPayout(selectedOrder.basePrice, accuracy);
+            GameStateManager.Instance.economyManager.CalculateDrinkPayout(selectedOrder.targetRecipe.basePrice, accuracy);
             ordersCompleted++;
         }
        ClearOrder();
     }
     public void ClearOrder()
     {
-        currentOrders.Remove(selectedOrder);
-        OnOrderRemoved?.Invoke(selectedOrder);
+        currentOrders.Remove(selectedOrder.targetRecipe);
+        OnOrderRemoved?.Invoke(selectedOrder.targetRecipe);
         selectedOrder = null;
     }
     public bool HasActiveOrder()
