@@ -77,6 +77,14 @@ public class OrderTicket : MonoBehaviour
     public void generateTicketData()
     {
         timeLeft = UnityEngine.Random.Range(npc.minPatienceTime, npc.maxPatienceTime);
+
+        foreach (KeyValuePair<Upgrade, float> upgrade in GameStateManager.Instance.upgradeManager.activeModifiers)
+        {
+            if (upgrade.Key.upgradeType == UpgradeType.TicketTimeBoost)
+            {
+                timeLeft = Mathf.RoundToInt(upgrade.Key.valueModifier * timeLeft);
+            }
+        }
         maxTime = timeLeft;
         timer.fillAmount = 1.0f;
         timeRunning = true;

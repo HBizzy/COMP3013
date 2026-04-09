@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d848eb21cf977940951c3117057c9ff, type: 3}
+  m_Name: OrangeGinFizz
+  m_EditorClassIdentifier: 
+  drinkName: Orange Gin Fizz
+  description: 
+  basePrice: 125
+  difficultyRating: 2
+  steps:
+  - {fileID: 11400000, guid: 2c03c5a8dc31ec4479cc635c88417837, type: 2}
+  - {fileID: 11400000, guid: adb0517a79941c0489dae8d0600d71c9, type: 2}
+  - {fileID: 11400000, guid: 1dbd625c93e6cb94186d9010775d80d4, type: 2}
+  - {fileID: 11400000, guid: 252dfaeec5f33d04cb423c1d99015034, type: 2}
+  - {fileID: 11400000, guid: cf68810f33e81994d8fea43864046f21, type: 2}
+  - {fileID: 11400000, guid: 52bce2e52869f1a4aac9b5e2eb8f14e1, type: 2}
+  icon: {fileID: 0}

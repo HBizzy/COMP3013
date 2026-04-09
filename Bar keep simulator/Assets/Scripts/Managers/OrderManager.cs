@@ -26,8 +26,8 @@ public class OrderManager : MonoBehaviour
                 DrinkRecipe newDrink = availableRecipes[UnityEngine.Random.RandomRange(0, availableRecipes.Count)];
                 currentOrders.Add(newDrink);
                 Debug.Log($"Order Added: {newDrink.drinkName}");
-                string recipeSteps = string.Join(",", newDrink.steps.Select(t => $"{t.drinkIngredient.ingredientName}"));
-                Debug.Log($"Recipe: {recipeSteps}");
+                //string recipeSteps = string.Join(",", newDrink.steps.Select(t => $"{t.drinkIngredient.ingredientName}"));
+                //Debug.Log($"Recipe: {recipeSteps}");
 
                 OnOrderGenerated?.Invoke(newDrink);
             }
@@ -54,10 +54,10 @@ public class OrderManager : MonoBehaviour
     {
         selectedOrder.submittedDrink = playerSteps;
         Debug.Log("Drink Evaluation Start");
-        string recipeSteps = string.Join(",", selectedOrder.targetRecipe.steps.Select(t => $"{t.drinkIngredient.ingredientName}"));
-        Debug.Log($"Recipe: {recipeSteps}");
-        string playerStepsNames = string.Join(",", playerSteps.Select(t => $"{t.drinkIngredient.ingredientName}"));
-        Debug.Log($"Recipe: {playerStepsNames}");
+        //string recipeSteps = string.Join(",", selectedOrder.targetRecipe.steps.Select(t => $"{t.drinkIngredient.ingredientName}"));
+        //Debug.Log($"Recipe: {recipeSteps}");
+        //string playerStepsNames = string.Join(",", playerSteps.Select(t => $"{t.drinkIngredient.ingredientName}"));
+        //Debug.Log($"Recipe: {playerStepsNames}");
         if (selectedOrder != null)
         {
             float currentAccuracy = 0;

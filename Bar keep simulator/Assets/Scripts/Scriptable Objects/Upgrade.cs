@@ -10,12 +10,11 @@ public class Upgrade : ScriptableObject
     public int cost;
     public UpgradeType upgradeType;
     public float valueModifier; // percentage after boost e.g. +10% 1.1  -20% 0.8
-    public int maxLevel;
 }
 
 public enum UpgradeType
 {
-    PourSpeed,
+    TicketTimeBoost,
     MistakeForgiveness,
     PatienceBoost,
     AlcoholQuality,

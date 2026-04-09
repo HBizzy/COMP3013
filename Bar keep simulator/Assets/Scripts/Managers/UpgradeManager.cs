@@ -6,7 +6,7 @@ public class UpgradeManager : MonoBehaviour
 {
     public List<Upgrade> purchasedUpgrades;
     public Dictionary<Upgrade,float> activeModifiers = new Dictionary<Upgrade, float> { };
-    public void PurchaseUpgrade(Upgrade upgrade)
+    public bool PurchaseUpgrade(Upgrade upgrade)
     {
 
         if(GameStateManager.Instance.economyManager.currentBalance >= upgrade.cost && !purchasedUpgrades.Contains(upgrade))
@@ -14,8 +14,9 @@ public class UpgradeManager : MonoBehaviour
             GameStateManager.Instance.economyManager.AddMoney(-upgrade.cost);
             activeModifiers.Add(upgrade, upgrade.valueModifier);
             purchasedUpgrades.Add(upgrade);
+            return true;
         }
-        
+        return false;
     }
     public bool IsUpgradeUnlocked(Upgrade upgrade)
     {

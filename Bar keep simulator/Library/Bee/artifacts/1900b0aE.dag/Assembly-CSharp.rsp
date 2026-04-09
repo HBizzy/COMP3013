@@ -383,6 +383,8 @@
 "Assets/Scripts/Scriptable Objects/NPCType.cs"
 "Assets/Scripts/Scriptable Objects/Upgrade.cs"
 "Assets/Scripts/UI/OrderTicket.cs"
+"Assets/Scripts/UI/UpgradePurchase.cs"
+"Assets/Scripts/UI/UpgradeUIManager.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01_UGUI.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark02.cs"

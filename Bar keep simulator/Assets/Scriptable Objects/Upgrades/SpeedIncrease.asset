@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee3e8c533198292479775c32d5352c6e, type: 3}
   m_Name: SpeedIncrease
   m_EditorClassIdentifier: 
-  upgradeName: Pour speed +
-  description: Increase pour speed by 40%
-  cost: 100
+  upgradeName: Ticket timer
+  description: +20%
+  cost: 250
   upgradeType: 0
-  valueModifier: 1.4
-  maxLevel: 1
+  valueModifier: 1.2

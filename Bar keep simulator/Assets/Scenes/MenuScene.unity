@@ -252,9 +252,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentOrders: []
-  selectedOrder: {fileID: 0}
   availableRecipes:
-  - {fileID: 11400000, guid: 92ddcfa5168dd2440af27a59a0488fd4, type: 2}
+  - {fileID: 11400000, guid: 4ad90c9e43d536249bd95c5073eda8e9, type: 2}
+  - {fileID: 11400000, guid: 6e1a5eed5904e1347bb27290e6b81a35, type: 2}
+  - {fileID: 11400000, guid: 82c2afd4e4587b34eb118fce551c70e6, type: 2}
+  - {fileID: 11400000, guid: f4eced473e0e55849988b8443392ecc3, type: 2}
+  - {fileID: 11400000, guid: 143615dd4a31a6a49b20ef118dd902ac, type: 2}
   ordersCompleted: 0
   isOrderActive: 0
 --- !u!114 &504232995
