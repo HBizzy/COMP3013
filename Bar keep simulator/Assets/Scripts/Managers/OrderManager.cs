@@ -11,6 +11,7 @@ public class OrderManager : MonoBehaviour
     public List<DrinkRecipe> currentOrders = new List<DrinkRecipe> { };
     public OrderData selectedOrder;
     public List<DrinkRecipe> availableRecipes;
+    public List<DrinkRecipe> AllAvailableRecipes;
     public int ordersCompleted;
     public bool isOrderActive;
     public event Action<DrinkRecipe> OnOrderGenerated;
@@ -130,5 +131,21 @@ public class OrderManager : MonoBehaviour
     {
         yield return new WaitForSeconds(UnityEngine.Random.RandomRange(10,20));
         GenerateOrder();
+    }
+
+    public void AddNewRecipe()
+    {
+        List<DrinkRecipe> CanAdd = new List<DrinkRecipe> { };
+        foreach(DrinkRecipe recipe in AllAvailableRecipes)
+        {
+            if (!availableRecipes.Contains(recipe))
+            {
+                CanAdd.Add(recipe);
+            }
+        }
+        if(CanAdd.Count > 0)
+        {
+            availableRecipes.Add(CanAdd[UnityEngine.Random.RandomRange(0,availableRecipes.Count)]);
+        }
     }
 }

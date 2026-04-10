@@ -12,6 +12,10 @@ public class NightManager : MonoBehaviour
     {
         isNightRunning = true;
         currentTimeRemaining = nightDuration;
+        if(GameStateManager.Instance.night %4 == 0)
+        {
+            GameStateManager.Instance.orderManager.AddNewRecipe();
+        }
     }
     public void UpdateTimer()
     {

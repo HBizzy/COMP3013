@@ -18,6 +18,8 @@ public class OrderTicket : MonoBehaviour
     public float timeLeft =9999999;
     public float maxTime;
 
+    public OrderTicketUIController controller;
+
     private bool timeRunning = false;
 
     // Start is called before the first frame update
@@ -27,7 +29,11 @@ public class OrderTicket : MonoBehaviour
         button.onClick.AddListener(() => {
 
             GameStateManager.Instance.orderManager.SelectOrder(order,npc);
-            
+            controller.ResetAllTicketHighlights();
+            if (highlight != null)
+            {
+                highlight.gameObject.SetActive(true);
+            }
 
         });
     }
@@ -35,23 +41,7 @@ public class OrderTicket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (order != null && GameStateManager.Instance.orderManager.selectedOrder!=null)
-        {
-            if (GameStateManager.Instance.orderManager.selectedOrder.targetRecipe == order)
-            {
-                if (highlight != null)
-                {
-                    highlight.gameObject.SetActive(true);
-                }
-            }
-            else
-            {
-                if (highlight != null)
-                {
-                    highlight.gameObject.SetActive(false);
-                }
-            }
-        }
+        
         if (timeRunning)
         {
             timeLeft -= Time.deltaTime;
@@ -88,5 +78,13 @@ public class OrderTicket : MonoBehaviour
         maxTime = timeLeft;
         timer.fillAmount = 1.0f;
         timeRunning = true;
+    }
+
+    public void ResetHighlight()
+    {
+        if (highlight != null)
+        {
+            highlight.gameObject.SetActive(false);
+        }
     }
 }

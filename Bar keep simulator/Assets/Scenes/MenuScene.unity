@@ -253,6 +253,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentOrders: []
   availableRecipes:
+  - {fileID: 11400000, guid: 82c2afd4e4587b34eb118fce551c70e6, type: 2}
+  - {fileID: 11400000, guid: f4eced473e0e55849988b8443392ecc3, type: 2}
+  AllAvailableRecipes:
   - {fileID: 11400000, guid: 4ad90c9e43d536249bd95c5073eda8e9, type: 2}
   - {fileID: 11400000, guid: 6e1a5eed5904e1347bb27290e6b81a35, type: 2}
   - {fileID: 11400000, guid: 82c2afd4e4587b34eb118fce551c70e6, type: 2}
