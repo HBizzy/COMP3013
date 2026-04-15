@@ -9,7 +9,7 @@ public class OrderTicketUIController : MonoBehaviour
     public Dictionary<OrderTicket, GameObject> ticketObjectPairs = new Dictionary<OrderTicket, GameObject>();
     public List<OrderTicket> orderTickets = new List<OrderTicket>();
 
-    public List<NPCType> possibleNPCs;
+    
   
     public GameObject ticketPrefab;
     // Start is called before the first frame update
@@ -30,24 +30,24 @@ public class OrderTicketUIController : MonoBehaviour
         GameStateManager.Instance.orderManager.OnOrderRemoved -= removeTicket;
     }
 
-    public void orderGenerated(DrinkRecipe drink)
+    public void orderGenerated(OrderData drink)
     {
         if(orderTickets.Count < 4)
         {
-            NPCType npcChosen = possibleNPCs[UnityEngine.Random.Range(0, possibleNPCs.Count)];
+            
             GameObject ticket = Instantiate(ticketPrefab,this.transform);
-            ticket.GetComponent<OrderTicket>().Bind(drink, npcChosen);
+            ticket.GetComponent<OrderTicket>().Bind(drink);
             ticket.GetComponent<OrderTicket>().controller = this;
             orderTickets.Add(ticket.GetComponent<OrderTicket>());
             ticketObjectPairs.Add(ticket.GetComponent<OrderTicket>(), ticket);
         }
     }
-    public void removeTicket(DrinkRecipe drink)
+    public void removeTicket(OrderData drink)
     {
         OrderTicket ticketToRemove = null;
         foreach (OrderTicket ticket in orderTickets)
         {
-            if(ticket.order == drink)
+            if(ticket.Order == drink)
             {
                 ticketToRemove = ticket;
             }

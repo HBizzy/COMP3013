@@ -157,7 +157,7 @@ public class GameStateManager : MonoBehaviour
     public IEnumerator delayStartGenerateOrder()
     {
         yield return new WaitForSeconds(1.0f);
-        orderManager.GenerateOrder();
+        orderManager.StartOrderGeneration();
     }
     public IEnumerator updateReviewText()
     {

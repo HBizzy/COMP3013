@@ -251,7 +251,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a02c773968e8b454f9d1e3398ecc1e17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentOrders: []
   availableRecipes:
   - {fileID: 11400000, guid: 82c2afd4e4587b34eb118fce551c70e6, type: 2}
   - {fileID: 11400000, guid: f4eced473e0e55849988b8443392ecc3, type: 2}
@@ -263,6 +262,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 143615dd4a31a6a49b20ef118dd902ac, type: 2}
   ordersCompleted: 0
   isOrderActive: 0
+  possibleNPCs:
+  - {fileID: 11400000, guid: c0843cecd8420c04197dfa37fc203b58, type: 2}
 --- !u!114 &504232995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +279,7 @@ MonoBehaviour:
   nightDuration: 30
   currentTimeRemaining: 300
   isNightRunning: 0
+  ticketsRemaining: 0
 --- !u!114 &504232996
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -21,14 +21,14 @@ public class OrderTicket : MonoBehaviour
     public OrderTicketUIController controller;
 
     private bool timeRunning = false;
-
+    public OrderData Order;
     // Start is called before the first frame update
     void Start()
     {
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() => {
 
-            GameStateManager.Instance.orderManager.SelectOrder(order,npc);
+            GameStateManager.Instance.orderManager.SelectOrder(Order);
             controller.ResetAllTicketHighlights();
             if (highlight != null)
             {
@@ -53,14 +53,16 @@ public class OrderTicket : MonoBehaviour
         {
             GameStateManager.Instance.orderManager.selectedOrder = null;
             timeRunning = false;
+            GameStateManager.Instance.orderManager.removeOrder(Order);
             Destroy(this.gameObject);
         }
     }
-    public void Bind(DrinkRecipe Order, NPCType npc)
+    public void Bind(OrderData Order)
     {
-        order = Order;
+        this.Order = Order;
+        order = Order.targetRecipe;
         orderName.text = order.drinkName;
-        this.npc = npc;
+        this.npc = Order.npc;
         generateTicketData();
     }
 

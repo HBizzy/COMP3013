@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class NightManager : MonoBehaviour
@@ -7,6 +8,7 @@ public class NightManager : MonoBehaviour
     public float nightDuration;
     public float currentTimeRemaining;
     public bool isNightRunning;
+    public bool ticketsRemaining;
 
     public void BeginNight()
     {
@@ -34,13 +36,13 @@ public class NightManager : MonoBehaviour
     }
     public void OnTimerExpired()
     {
-        isNightRunning = false;
-        GameStateManager.Instance.EndNight();
+        isNightRunning = false; 
     }
 
     public void Update()
     {
-        if (isNightRunning && isNightRunning)
+        currentTimeRemaining = Mathf.Clamp(currentTimeRemaining, 0, nightDuration);
+        if (isNightRunning)
         {
             UpdateTimer();
         }
@@ -50,4 +52,5 @@ public class NightManager : MonoBehaviour
         }
        
     }
+ 
 }

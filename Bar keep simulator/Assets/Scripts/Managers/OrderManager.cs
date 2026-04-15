@@ -2,45 +2,58 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class OrderManager : MonoBehaviour
 {
-    public List<DrinkRecipe> currentOrders = new List<DrinkRecipe> { };
+    public List<OrderData> currentOrders = new List<OrderData> { };
     public OrderData selectedOrder;
     public List<DrinkRecipe> availableRecipes;
     public List<DrinkRecipe> AllAvailableRecipes;
     public int ordersCompleted;
     public bool isOrderActive;
-    public event Action<DrinkRecipe> OnOrderGenerated;
-    public event Action<DrinkRecipe> OnOrderRemoved;
+    public event Action<OrderData> OnOrderGenerated;
+    public event Action<OrderData> OnOrderRemoved;
     public event Action OnOrderUpdated;
+    public List<NPCType> possibleNPCs;
+
+    private List<Wave> waves = new List<Wave>() {new Wave(5,2.0f,30.0f), new Wave(8, 1.8f, 25.0f), new Wave(12, 1.5f, 20.0f) } ;
+
+    public void StartOrderGeneration()
+    {
+        StartCoroutine(RunWaves());
+        StartCoroutine(CheckMinimumOrders());
+    }
     public void GenerateOrder()
     {
         if (GameStateManager.Instance.nightManager.isNightRunning)
         {
-            StartCoroutine(WaitForRandomTime());
+            
             if (currentOrders.Count < 4)
             {
-                DrinkRecipe newDrink = availableRecipes[UnityEngine.Random.RandomRange(0, availableRecipes.Count)];
-                currentOrders.Add(newDrink);
-                Debug.Log($"Order Added: {newDrink.drinkName}");
-                //string recipeSteps = string.Join(",", newDrink.steps.Select(t => $"{t.drinkIngredient.ingredientName}"));
-                //Debug.Log($"Recipe: {recipeSteps}");
+                DrinkRecipe newDrinkRecipe = availableRecipes[UnityEngine.Random.Range(0, availableRecipes.Count)];
+                OrderData newDrink = new OrderData();
+                newDrink.targetRecipe = newDrinkRecipe;
+                NPCType npcChosen = possibleNPCs[UnityEngine.Random.Range(0, possibleNPCs.Count)];
 
+                newDrink.npc = npcChosen;
+
+                currentOrders.Add(newDrink);
+                UnityEngine.Debug.Log($"Order Added: {newDrink.targetRecipe.drinkName}");
+                
                 OnOrderGenerated?.Invoke(newDrink);
             }
         }
-        else { StopAllCoroutines(); }
+        
     
     }
-    public void SelectOrder(DrinkRecipe selectedRecipe, NPCType npc)
+    public void SelectOrder(OrderData selectedRecipe)
     {
-        selectedOrder = new OrderData();
-        selectedOrder.targetRecipe = selectedRecipe;
-        selectedOrder.npc = npc;
+        selectedOrder = selectedRecipe;
         OnOrderUpdated?.Invoke();
     }
     public DrinkRecipe GetCurrentOrder()
@@ -54,7 +67,7 @@ public class OrderManager : MonoBehaviour
     public void EvaluateDrink(List<DrinkStep> playerSteps)
     {
         selectedOrder.submittedDrink = playerSteps;
-        Debug.Log("Drink Evaluation Start");
+        UnityEngine.Debug.Log("Drink Evaluation Start");
         //string recipeSteps = string.Join(",", selectedOrder.targetRecipe.steps.Select(t => $"{t.drinkIngredient.ingredientName}"));
         //Debug.Log($"Recipe: {recipeSteps}");
         //string playerStepsNames = string.Join(",", playerSteps.Select(t => $"{t.drinkIngredient.ingredientName}"));
@@ -81,7 +94,7 @@ public class OrderManager : MonoBehaviour
                 }
             }
             currentAccuracy += (float)correctSteps / (float)requiredSteps * 0.6f;
-            Debug.Log($"Contents correct: {(float)correctSteps}/{(float)requiredSteps}");
+            UnityEngine.Debug.Log($"Contents correct: {(float)correctSteps}/{(float)requiredSteps}");
             int lastMatchedIndex = -1;
             float correctOrderCount = 0;
             foreach (DrinkStep step in correctedSteps)
@@ -99,10 +112,10 @@ public class OrderManager : MonoBehaviour
                 }
             }
             currentAccuracy += correctOrderCount / (float)selectedOrder.targetRecipe.steps.Count * 0.4f;
-            Debug.Log($"Steps in order count: {correctOrderCount}/{(float)selectedOrder.targetRecipe.steps.Count}");
+            UnityEngine.Debug.Log($"Steps in order count: {correctOrderCount}/{(float)selectedOrder.targetRecipe.steps.Count}");
             currentAccuracy -= (float)additionalErrorSteps * 0.1f;
-            Debug.Log($"Extra steps: {additionalErrorSteps}");
-            Debug.Log($"Final accuracy: {currentAccuracy}");
+            UnityEngine.Debug.Log($"Extra steps: {additionalErrorSteps}");
+            UnityEngine.Debug.Log($"Final accuracy: {currentAccuracy}");
             selectedOrder.accuracy = currentAccuracy;
             CompleteOrder(currentAccuracy);
         }
@@ -118,19 +131,31 @@ public class OrderManager : MonoBehaviour
     }
     public void ClearOrder()
     {
-        currentOrders.Remove(selectedOrder.targetRecipe);
-        OnOrderRemoved?.Invoke(selectedOrder.targetRecipe);
+        currentOrders.Remove(selectedOrder);
+        OnOrderRemoved?.Invoke(selectedOrder);
         selectedOrder = null;
+
+        if (!GameStateManager.Instance.nightManager.isNightRunning
+            && currentOrders.Count == 0)
+        {
+            UnityEngine.Debug.Log("Night ending no orders left");
+            GameStateManager.Instance.EndNight();
+        }
+    }
+    public void removeOrder(OrderData drink)
+    {
+        currentOrders.Remove(drink);
+        OnOrderRemoved?.Invoke(selectedOrder);
+        if (!GameStateManager.Instance.nightManager.isNightRunning
+            && currentOrders.Count == 0)
+        {
+            UnityEngine.Debug.Log("Night ending no orders left");
+            GameStateManager.Instance.EndNight();
+        }
     }
     public bool HasActiveOrder()
     {
         return selectedOrder != null;
-    }
-
-    public IEnumerator WaitForRandomTime()
-    {
-        yield return new WaitForSeconds(UnityEngine.Random.RandomRange(10,20));
-        GenerateOrder();
     }
 
     public void AddNewRecipe()
@@ -147,5 +172,56 @@ public class OrderManager : MonoBehaviour
         {
             availableRecipes.Add(CanAdd[UnityEngine.Random.RandomRange(0,availableRecipes.Count)]);
         }
+    }
+
+    public IEnumerator RunWaves()
+    {
+        foreach (Wave wave in waves)
+        {
+            if (!GameStateManager.Instance.nightManager.isNightRunning)
+                yield break;
+
+            for (int i = 0; i < wave.count; i++)
+            {
+                if (!GameStateManager.Instance.nightManager.isNightRunning)
+                    yield break;
+
+                if (currentOrders.Count < 4)
+                {
+                    GenerateOrder();
+                }
+
+                yield return new WaitForSeconds(wave.rate);
+            }
+
+            yield return new WaitForSeconds(wave.breakTime);
+        }
+    }
+
+    public IEnumerator CheckMinimumOrders()
+    {
+        while (GameStateManager.Instance.nightManager.isNightRunning)
+        {
+            if (currentOrders.Count < 2)
+            {
+                GenerateOrder();
+            }
+
+            yield return new WaitForSeconds(UnityEngine.Random.RandomRange(1f, 3f));
+        }
+    }
+}
+
+public struct Wave
+{
+    public int count;
+    public float rate;
+    public float breakTime;
+
+    public Wave(int count, float rate, float breakTime)
+    {
+        this.count = count;
+        this.rate = rate;    
+        this.breakTime = breakTime;
     }
 }
