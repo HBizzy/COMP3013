@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,10 @@ public class DrinkAssemblyController : MonoBehaviour
     public Button shakeButton;
     public DrinkStep stirStep;
     public DrinkStep shakeStep;
+
+    public GameObject imagePrefab;
+    public GameObject content;
+    private List<GameObject> iconsInGlass = new List<GameObject> { };
 
     public List<DrinkStep> availableSteps;
     // Start is called before the first frame update
@@ -76,19 +81,36 @@ public class DrinkAssemblyController : MonoBehaviour
                 }
             }
         }
+        UpdateGlassUI();
         selectedIngredient = null;
     }
 
     public void AddStep(DrinkStep step)
     {
         currentSteps.Add(step);
-        
+        UpdateGlassUI();
         selectedIngredient = null;
     }
     public void clearStepsAndIngredient()
     {
         selectedIngredient = null;
         currentSteps.Clear();
+        UpdateGlassUI();
     }
 
+    public void UpdateGlassUI()
+    {
+        foreach(GameObject icon in iconsInGlass)
+        {
+            Destroy(icon);
+        }
+
+        foreach(DrinkStep step in currentSteps)
+        {
+            GameObject toAdd = Instantiate(imagePrefab, content.transform);
+            if(step.drinkIngredient !=null && step.drinkIngredient.icon !=null)
+                toAdd.GetComponent<Image>().sprite = step.drinkIngredient.icon;
+            iconsInGlass.Add(toAdd);
+        }
+    }
 }

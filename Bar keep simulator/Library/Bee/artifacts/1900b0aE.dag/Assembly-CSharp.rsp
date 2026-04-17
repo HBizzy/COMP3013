@@ -366,6 +366,8 @@
 "Assets/Fries and Seagull/Bar 02/Scene Props/Scripts/Setup/FriesPostProcessorIdentifier.cs"
 "Assets/Fries and Seagull/Bar 02/Scene Props/Scripts/Setup/SetupScriptBRP.cs"
 "Assets/Fries and Seagull/Bar 02/Scene Props/Scripts/Setup/SetupScriptURP.cs"
+"Assets/Scripts/DragInteraction.cs"
+"Assets/Scripts/DragTarget.cs"
 "Assets/Scripts/DrinkAssemblyController.cs"
 "Assets/Scripts/IngrediantButton.cs"
 "Assets/Scripts/Managers/EconomyManager.cs"

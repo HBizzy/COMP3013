@@ -13,7 +13,6 @@ public class OrderTicket : MonoBehaviour
     public Image timer;
     public DrinkRecipe order;
     public Image highlight;
-
     public NPCType npc;
     public float timeLeft =9999999;
     public float maxTime;
@@ -25,6 +24,7 @@ public class OrderTicket : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameObject.GetComponent<Animator>().enabled = false;
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() => {
 
@@ -41,22 +41,29 @@ public class OrderTicket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
         if (timeRunning)
         {
             timeLeft -= Time.deltaTime;
             timer.fillAmount = timeLeft / maxTime;
-            if(GameStateManager.Instance.orderManager.selectedOrder !=null)
-            GameStateManager.Instance.orderManager.selectedOrder.percentTimeLeft = timeLeft / maxTime;
-        }
-        if (timeLeft <= 0)
-        {
-            GameStateManager.Instance.orderManager.selectedOrder = null;
-            timeRunning = false;
-            GameStateManager.Instance.orderManager.removeOrder(Order);
-            Destroy(this.gameObject);
+            if (GameStateManager.Instance.orderManager.selectedOrder != null)
+                GameStateManager.Instance.orderManager.selectedOrder.percentTimeLeft = timeLeft / maxTime;
+            if (timeLeft / maxTime <= 0.25f)
+            {
+                gameObject.GetComponent<Animator>().enabled = true;
+            }
+            {
+                if (timeLeft <= 0)
+                {
+                    GameStateManager.Instance.orderManager.selectedOrder = null;
+                    timeRunning = false;
+                    GameStateManager.Instance.orderManager.removeOrder(Order);
+                    Destroy(this.gameObject);
+                }
+            }
         }
     }
+
     public void Bind(OrderData Order)
     {
         this.Order = Order;
