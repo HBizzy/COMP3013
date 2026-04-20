@@ -58,6 +58,7 @@ public class OrderTicket : MonoBehaviour
                     GameStateManager.Instance.orderManager.selectedOrder = null;
                     timeRunning = false;
                     GameStateManager.Instance.orderManager.removeOrder(Order);
+                    controller.feedbackManager.OrderTimeOut();
                     Destroy(this.gameObject);
                 }
             }

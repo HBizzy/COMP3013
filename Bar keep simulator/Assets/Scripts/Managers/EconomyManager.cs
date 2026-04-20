@@ -47,26 +47,30 @@ public class EconomyManager : MonoBehaviour
         }
 
         switch (order.npc.personalityTag)
-        {
-            case PersonalityTag.Polite:
-                break;
-            case PersonalityTag.Patient:
-                break;
-            case PersonalityTag.Impatient:
+        {     case PersonalityTag.Impatient:
                 tipPercentage = (-0.1f * (1 - timeLeft) + 0.05f); // guranteed 5% tip starts at 15% decreases with time taken
+                break;
+            case PersonalityTag.Perfectionist:
+                tipPercentage = (0.15f * accuracy - 0.05f); // guranteed 15% tip starts at 15% decreases accuracy
+                break;
+            case PersonalityTag.Generous:
+                tipPercentage = (0.125f); // guranteed 12.5%
+                break;
+            case PersonalityTag.Cheap:
+                tipPercentage = (0.05f); // 5% tip
+                break;
+            case PersonalityTag.Picky:
+                tipPercentage = ((0.5f * accuracy + 0.5f * timeLeft) * 0.15f); // average of time percentage and accuracy percentage
+                break;
+            case PersonalityTag.Regular:
+                tipPercentage = (0.1f + GameStateManager.Instance.orderManager.ordersCompleted *0.01f); // will tip more for the more customers have been served
                 break;
         }
 
-
-        //add upgrade modifiers when made
-
-
-
-
+        tipPercentage = Mathf.Clamp(value, 0.0f, 0.25f);
+        
         //adding tip - percentage as float e.g. 0.05 = 5% tip
         value += Mathf.RoundToInt(value * tipPercentage);
-
-        //add some effects to show money added and tip given with satisfaction indicator.
 
         foreach (KeyValuePair<Upgrade,float> upgrade in GameStateManager.Instance.upgradeManager.activeModifiers)
         {
@@ -77,6 +81,7 @@ public class EconomyManager : MonoBehaviour
         }
 
         AddMoney(value);
+        GameStateManager.Instance.orderManager.feedbackManager.SpawnFloatingMoneyText(value);
         return value;
     }
     public void ResetNightEarnings()

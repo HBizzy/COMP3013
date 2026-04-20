@@ -16,4 +16,4 @@ MonoBehaviour:
   minPatienceTime: 20
   maxPatienceTime: 35
   tipModifier: 1.2
-  personalityTag: 3
+  personalityTag: 1

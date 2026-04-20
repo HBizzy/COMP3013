@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpeedIncrease
   m_EditorClassIdentifier: 
   upgradeName: Ticket timer
-  description: +20%
+  description: +10%
   cost: 250
   upgradeType: 0
-  valueModifier: 1.2
+  valueModifier: 1.1

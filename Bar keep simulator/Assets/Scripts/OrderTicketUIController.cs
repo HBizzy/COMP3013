@@ -8,9 +8,9 @@ public class OrderTicketUIController : MonoBehaviour
 {
     public Dictionary<OrderTicket, GameObject> ticketObjectPairs = new Dictionary<OrderTicket, GameObject>();
     public List<OrderTicket> orderTickets = new List<OrderTicket>();
+    public FeedbackManager feedbackManager;
 
-    
-  
+
     public GameObject ticketPrefab;
     // Start is called before the first frame update
     void Start()

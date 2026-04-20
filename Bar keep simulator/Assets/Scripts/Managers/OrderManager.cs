@@ -23,6 +23,7 @@ public class OrderManager : MonoBehaviour
 
     private List<Wave> waves = new List<Wave>() {new Wave(5,2.0f,30.0f), new Wave(8, 1.8f, 25.0f), new Wave(12, 1.5f, 20.0f) } ;
 
+    public FeedbackManager feedbackManager;
     public void StartOrderGeneration()
     {
         StartCoroutine(RunWaves());
@@ -131,6 +132,7 @@ public class OrderManager : MonoBehaviour
     {
         if (HasActiveOrder())
         {
+            feedbackManager.FeedbackFromAccuracy(accuracy);
             GameStateManager.Instance.economyManager.CalculateDrinkPayout(selectedOrder.targetRecipe.basePrice, accuracy);
             ordersCompleted++;
         }
@@ -216,6 +218,10 @@ public class OrderManager : MonoBehaviour
 
             yield return new WaitForSeconds(UnityEngine.Random.RandomRange(1f, 3f));
         }
+    }
+    public void Update()
+    {
+        feedbackManager = FindAnyObjectByType<FeedbackManager>();
     }
 }
 

@@ -264,6 +264,12 @@ MonoBehaviour:
   isOrderActive: 0
   possibleNPCs:
   - {fileID: 11400000, guid: c0843cecd8420c04197dfa37fc203b58, type: 2}
+  - {fileID: 11400000, guid: 0be7a5c711cf9b04a90bb9fc943c5a2d, type: 2}
+  - {fileID: 11400000, guid: 1f489c7c3d24ed94b821171cde5b2dc9, type: 2}
+  - {fileID: 11400000, guid: 53c1ca8b171429e4ca3fa5f5a7c6e8c1, type: 2}
+  - {fileID: 11400000, guid: a0150c103aab2d44e9dca40fd6119456, type: 2}
+  - {fileID: 11400000, guid: 4aee70de0d1a749449f786df97c62eb9, type: 2}
+  feedbackManager: {fileID: 0}
 --- !u!114 &504232995
 MonoBehaviour:
   m_ObjectHideFlags: 0

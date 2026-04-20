@@ -16,9 +16,12 @@ public class NPCType : ScriptableObject
 public enum PersonalityTag
 {
     None,
-    Polite,
-    Rude,
     Impatient,
-    Patient,
+    Perfectionist,
+    Generous,
+    Cheap,
+    Picky,
+    Regular,
+
     //etc
 }

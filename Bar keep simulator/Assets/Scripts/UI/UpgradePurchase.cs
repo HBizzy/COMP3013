@@ -27,8 +27,8 @@ public class UpgradePurchase : MonoBehaviour
     {
         upgradeSO = upgrade;
 
-        nameDesc.text = $"{upgrade.name} - {upgrade.description}";
-        price.text = $"{upgrade.cost}g"; // change to red or green if they can purchase or not.
+        nameDesc.text = $"{upgrade.upgradeName} - {upgrade.description}";
+        price.text = $"£{upgrade.cost}"; // change to red or green if they can purchase or not.
 
         //add button on click listener to link back to upgrade manager
 
