@@ -10,7 +10,8 @@ public class OrderTicketUIController : MonoBehaviour
     public List<OrderTicket> orderTickets = new List<OrderTicket>();
     public FeedbackManager feedbackManager;
 
-
+    public AudioSource ticketSound;
+    public AudioSource ticketFailSound;
     public GameObject ticketPrefab;
     // Start is called before the first frame update
     void Start()
@@ -58,6 +59,7 @@ public class OrderTicketUIController : MonoBehaviour
             ticketObjectPairs.Remove(ticketToRemove);
             orderTickets.Remove(ticketToRemove);
             Debug.Log("Order complete");
+            PlayTicketFailSound();
         }
     }
     public void ResetAllTicketHighlights()
@@ -66,5 +68,15 @@ public class OrderTicketUIController : MonoBehaviour
         {
             ticket.ResetHighlight();
         }
+    }
+    public void PlayTicketSound()
+    {
+        ticketSound.pitch = UnityEngine.Random.RandomRange(0.9f, 1.1f);
+        ticketSound.Play();
+    }
+    public void PlayTicketFailSound()
+    {
+        ticketFailSound.pitch = UnityEngine.Random.RandomRange(0.9f, 1.1f);
+        ticketFailSound.Play();
     }
 }

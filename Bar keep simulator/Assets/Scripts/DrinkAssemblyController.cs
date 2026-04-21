@@ -21,6 +21,7 @@ public class DrinkAssemblyController : MonoBehaviour
     private List<GameObject> iconsInGlass = new List<GameObject> { };
 
     public List<DrinkStep> availableSteps;
+    public AudioSource pickupSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -112,5 +113,10 @@ public class DrinkAssemblyController : MonoBehaviour
                 toAdd.GetComponent<Image>().sprite = step.drinkIngredient.icon;
             iconsInGlass.Add(toAdd);
         }
+    }
+    public void playPickupSound()
+    {
+        pickupSound.pitch = Random.RandomRange(0.9f, 1.1f);
+        pickupSound.Play();
     }
 }

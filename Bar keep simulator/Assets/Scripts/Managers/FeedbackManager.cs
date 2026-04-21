@@ -173,4 +173,36 @@ public class FeedbackManager : MonoBehaviour
         tmp.color = color;
         tmp.text = $"£{amount}";
     }
+
+    public void SpawnFloatingRepText(bool positive)
+    {
+        UnityEngine.Color color = UnityEngine.Color.white;
+        string msg = "";
+        if (positive)
+        {
+            color = UnityEngine.Color.green;
+            msg = "+Rep";
+        }
+        else
+        {
+            color = UnityEngine.Color.red;
+            msg = "-Rep";
+        }
+
+        RectTransform parentRect = GetComponent<RectTransform>();
+
+        Rect r = parentRect.rect;
+
+        float x = Random.Range(r.xMin, r.xMax);
+        float y = Random.Range(r.yMin, r.yMax);
+
+        GameObject text = Instantiate(FeedbackPrefab, parentRect);
+
+        RectTransform textRect = text.GetComponent<RectTransform>();
+        textRect.anchoredPosition = new Vector2(x, y);
+
+        TextMeshProUGUI tmp = text.GetComponent<TextMeshProUGUI>();
+        tmp.color = color;
+        tmp.text = msg;
+    }
 }

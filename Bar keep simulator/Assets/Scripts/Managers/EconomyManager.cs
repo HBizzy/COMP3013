@@ -68,7 +68,16 @@ public class EconomyManager : MonoBehaviour
         }
 
         tipPercentage = Mathf.Clamp(value, 0.0f, 0.25f);
-        
+
+        if (GameStateManager.Instance.reputationManager.reputation < 40)
+        {
+            tipPercentage *= 0.8f;
+        }
+        else if (GameStateManager.Instance.reputationManager.reputation > 60)
+        {
+            tipPercentage *= 1.2f;
+        }
+
         //adding tip - percentage as float e.g. 0.05 = 5% tip
         value += Mathf.RoundToInt(value * tipPercentage);
 

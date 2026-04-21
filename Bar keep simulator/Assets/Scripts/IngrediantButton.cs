@@ -19,7 +19,7 @@ public class IngrediantButton : MonoBehaviour
         button.onClick.AddListener(() => {
 
             this.GetComponentInParent<DrinkAssemblyController>().SetIngredient(ingredient);
-            // send ingredient to manager
+            this.GetComponentInParent<DrinkAssemblyController>().playPickupSound();
 
 
         });

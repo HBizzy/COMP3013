@@ -5,6 +5,7 @@ using Unity.IO.LowLevel.Unsafe;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class GameStateManager : MonoBehaviour
@@ -18,14 +19,11 @@ public class GameStateManager : MonoBehaviour
     public OrderManager orderManager;
     public EconomyManager economyManager;
     public UpgradeManager upgradeManager;
-
+    public ReputationManager reputationManager;
     public event Action OnHubEnter;
 
-    //testing
-    [Header("Testing")]
-    public DrinkRecipe testRecipe;
-    public List<DrinkStep> perfectSteps;
-    public List<DrinkStep> mediumSteps;
+    public event Action OnNightStart;
+    public AudioMixer mixer;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -62,16 +60,21 @@ public class GameStateManager : MonoBehaviour
         switch (state)
         {
             case GameState.MainMenu:
+                ResetAudioEffects();
                 SceneManager.LoadScene("MenuScene");
                 break;
             case GameState.NightActive:
+                ResetAudioEffects();
                 SceneManager.LoadScene("NightScene");
+                OnNightStart?.Invoke();
                 break;
             case GameState.NightEnd:
+                ResetAudioEffects();
                 SceneManager.LoadScene("HubScene");
                 StartCoroutine(updateReviewText());
                 break;
             case GameState.FailState:
+                ResetAudioEffects();
                 SceneManager.LoadScene("MenuScene");
                 break;
 
@@ -96,6 +99,7 @@ public class GameStateManager : MonoBehaviour
         economyManager.nightEarnings = 0;
         nightManager.BeginNight();
         StartCoroutine(delayStartGenerateOrder());
+        
     }
     public void EndNight()
     {
@@ -119,40 +123,7 @@ public class GameStateManager : MonoBehaviour
     }
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            StartNight();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            EndNight();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            orderManager.GenerateOrder();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            OrderData newOrder = new OrderData();
-            newOrder.targetRecipe = testRecipe;
-            orderManager.selectedOrder = newOrder;
-            orderManager.SubmitDrink(perfectSteps);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            OrderData newOrder = new OrderData();
-            newOrder.targetRecipe = testRecipe;
-            orderManager.selectedOrder = newOrder;
-            orderManager.SubmitDrink(mediumSteps);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            economyManager.AddMoney(99);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            economyManager.CheckRentSuccess(1000);
-        }
+       
     }
     public IEnumerator delayStartGenerateOrder()
     {
@@ -163,6 +134,10 @@ public class GameStateManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         OnHubEnter?.Invoke();
+    }
+    public void ResetAudioEffects()
+    {
+        mixer.SetFloat("LowPass", 22000f);
     }
 }
 

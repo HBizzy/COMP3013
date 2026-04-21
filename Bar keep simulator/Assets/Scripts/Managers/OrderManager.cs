@@ -123,6 +123,9 @@ public class OrderManager : MonoBehaviour
                 UnityEngine.Debug.Log($"Extra steps: {additionalErrorSteps}");
                 UnityEngine.Debug.Log($"Final accuracy: {currentAccuracy}");
                 selectedOrder.accuracy = currentAccuracy;
+
+                CalculateRepGain();
+
                 CompleteOrder(currentAccuracy);
             }
         
@@ -222,6 +225,33 @@ public class OrderManager : MonoBehaviour
     public void Update()
     {
         feedbackManager = FindAnyObjectByType<FeedbackManager>();
+    }
+    public void CalculateRepGain()
+    {
+        if(selectedOrder.accuracy >= 0.75f && selectedOrder.percentTimeLeft >= 0.6f)
+        {
+            GameStateManager.Instance.reputationManager.AddReputation(6);
+        }
+        else if(selectedOrder.accuracy >= 0.6f)
+        {
+            GameStateManager.Instance.reputationManager.AddReputation(3);
+        }
+        else if (selectedOrder.accuracy >= 0.5f)
+        {
+            GameStateManager.Instance.reputationManager.AddReputation(1);
+        }
+        else if (selectedOrder.accuracy >= 0.5f && selectedOrder.percentTimeLeft >= 0.4f)
+        {
+            GameStateManager.Instance.reputationManager.AddReputation(-2);
+        }
+        else if (selectedOrder.accuracy <= 0.5f && selectedOrder.accuracy >= 0.25f)
+        {
+            GameStateManager.Instance.reputationManager.AddReputation(-6);
+        }
+        else if (selectedOrder.accuracy <= 0.25f)
+        {
+            GameStateManager.Instance.reputationManager.AddReputation(-8);
+        }
     }
 }
 

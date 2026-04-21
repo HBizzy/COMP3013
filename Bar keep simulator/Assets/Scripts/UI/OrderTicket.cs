@@ -59,6 +59,8 @@ public class OrderTicket : MonoBehaviour
                     timeRunning = false;
                     GameStateManager.Instance.orderManager.removeOrder(Order);
                     controller.feedbackManager.OrderTimeOut();
+                    controller.PlayTicketFailSound();
+                    GameStateManager.Instance.reputationManager.AddReputation(-10);
                     Destroy(this.gameObject);
                 }
             }
@@ -83,6 +85,14 @@ public class OrderTicket : MonoBehaviour
             if (upgrade.Key.upgradeType == UpgradeType.TicketTimeBoost)
             {
                 timeLeft = Mathf.RoundToInt(upgrade.Key.valueModifier * timeLeft);
+                if(GameStateManager.Instance.reputationManager.reputation < 40)
+                {
+                    timeLeft *= 0.8f;
+                }
+                else if(GameStateManager.Instance.reputationManager.reputation > 60)
+                {
+                    timeLeft *= 1.2f;
+                }
             }
         }
         maxTime = timeLeft;
