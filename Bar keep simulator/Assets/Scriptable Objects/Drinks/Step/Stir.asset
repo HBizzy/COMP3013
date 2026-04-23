@@ -18,3 +18,5 @@ MonoBehaviour:
   requiredMetricMin: 0
   requiredMetricMax: 0
   orderIndex: 0
+  instructionText: Stir to mix
+  icon: {fileID: 0}

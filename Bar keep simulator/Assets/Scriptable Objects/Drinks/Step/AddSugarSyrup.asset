@@ -18,3 +18,5 @@ MonoBehaviour:
   requiredMetricMin: 0
   requiredMetricMax: 0
   orderIndex: 0
+  instructionText: Add sugar syrup
+  icon: {fileID: 21300000, guid: 6582b25633d02f54ba48712665e890eb, type: 3}

@@ -18,3 +18,5 @@ MonoBehaviour:
   requiredMetricMin: 0
   requiredMetricMax: 0
   orderIndex: 0
+  instructionText: Add tonic water
+  icon: {fileID: 21300000, guid: e103f24873536744ab62608d19b81a5e, type: 3}

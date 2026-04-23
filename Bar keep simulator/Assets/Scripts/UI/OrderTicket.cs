@@ -55,13 +55,10 @@ public class OrderTicket : MonoBehaviour
             {
                 if (timeLeft <= 0)
                 {
-                    GameStateManager.Instance.orderManager.selectedOrder = null;
-                    timeRunning = false;
-                    GameStateManager.Instance.orderManager.removeOrder(Order);
+                    controller.removeTicket(Order);
                     controller.feedbackManager.OrderTimeOut();
-                    controller.PlayTicketFailSound();
                     GameStateManager.Instance.reputationManager.AddReputation(-10);
-                    Destroy(this.gameObject);
+                    
                 }
             }
         }

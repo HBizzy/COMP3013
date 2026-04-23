@@ -18,3 +18,5 @@ MonoBehaviour:
   requiredMetricMin: 0
   requiredMetricMax: 0
   orderIndex: 0
+  instructionText: Add a slice of lemon
+  icon: {fileID: 21300000, guid: bfd8edecf234f124cb9f65e172d72e71, type: 3}

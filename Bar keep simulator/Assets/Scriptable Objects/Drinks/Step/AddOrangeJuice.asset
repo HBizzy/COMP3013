@@ -18,3 +18,5 @@ MonoBehaviour:
   requiredMetricMin: 0
   requiredMetricMax: 0
   orderIndex: 0
+  instructionText: Add orange juice
+  icon: {fileID: 21300000, guid: 5477500db6635ae47a6cb186fe7f4bac, type: 3}

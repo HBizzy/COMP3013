@@ -18,3 +18,5 @@ MonoBehaviour:
   requiredMetricMin: 0
   requiredMetricMax: 0
   orderIndex: 0
+  instructionText: Add a shot of Rum
+  icon: {fileID: 21300000, guid: cd203f9bb29e5e849a5ae3e20599fedf, type: 3}

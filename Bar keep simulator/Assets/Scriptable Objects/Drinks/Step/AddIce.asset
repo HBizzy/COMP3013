@@ -18,3 +18,5 @@ MonoBehaviour:
   requiredMetricMin: 0
   requiredMetricMax: 0
   orderIndex: 0
+  instructionText: Add ice
+  icon: {fileID: 21300000, guid: 197635d4e1c769747b7a9a5f70096126, type: 3}

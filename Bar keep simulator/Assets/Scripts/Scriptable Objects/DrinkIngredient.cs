@@ -10,7 +10,7 @@ public class DrinkIngredient : ScriptableObject
     public GarnishType garnishType; //optional if garnish
     public FlavourProfile flavourProfile;
 
-    public Sprite icon;
+    
 }
 
 public enum IngredientType

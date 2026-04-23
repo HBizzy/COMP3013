@@ -18,3 +18,5 @@ MonoBehaviour:
   requiredMetricMin: 0
   requiredMetricMax: 0
   orderIndex: 0
+  instructionText: Add 1 shot of Gin
+  icon: {fileID: 21300000, guid: 3c3c22fd33c049b4797d0c2b86e625ec, type: 3}

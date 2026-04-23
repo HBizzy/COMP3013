@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Regular
   m_EditorClassIdentifier: 
   npcName: Tyler
-  minPatienceTime: 20
-  maxPatienceTime: 35
+  minPatienceTime: 45
+  maxPatienceTime: 55
   tipModifier: 1.2
   personalityTag: 6

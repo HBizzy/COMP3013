@@ -18,3 +18,5 @@ MonoBehaviour:
   requiredMetricMin: 0
   requiredMetricMax: 0
   orderIndex: 0
+  instructionText: Adda shot of vodka
+  icon: {fileID: 21300000, guid: 1d4a2c89bed25464289281ac0f31c41e, type: 3}

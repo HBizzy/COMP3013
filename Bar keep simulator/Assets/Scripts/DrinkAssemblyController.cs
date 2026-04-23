@@ -109,8 +109,8 @@ public class DrinkAssemblyController : MonoBehaviour
         foreach(DrinkStep step in currentSteps)
         {
             GameObject toAdd = Instantiate(imagePrefab, content.transform);
-            if(step.drinkIngredient !=null && step.drinkIngredient.icon !=null)
-                toAdd.GetComponent<Image>().sprite = step.drinkIngredient.icon;
+            if(step.icon !=null)
+                toAdd.GetComponent<Image>().sprite = step.icon;
             iconsInGlass.Add(toAdd);
         }
     }

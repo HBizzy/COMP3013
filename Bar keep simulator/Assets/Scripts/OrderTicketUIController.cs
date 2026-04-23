@@ -55,9 +55,10 @@ public class OrderTicketUIController : MonoBehaviour
         }
         if(ticketToRemove != null)
         {
+            orderTickets.Remove(ticketToRemove);
             Destroy(ticketObjectPairs[ticketToRemove]);
             ticketObjectPairs.Remove(ticketToRemove);
-            orderTickets.Remove(ticketToRemove);
+            
             Debug.Log("Order complete");
             PlayTicketFailSound();
         }

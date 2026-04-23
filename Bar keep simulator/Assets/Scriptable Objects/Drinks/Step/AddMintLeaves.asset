@@ -18,3 +18,5 @@ MonoBehaviour:
   requiredMetricMin: 0
   requiredMetricMax: 0
   orderIndex: 0
+  instructionText: Add a mint leaf
+  icon: {fileID: 21300000, guid: 1cccba57fa51afa4da83acc0f1e4ee64, type: 3}
