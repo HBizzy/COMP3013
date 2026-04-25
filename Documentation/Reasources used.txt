@@ -1,0 +1,12 @@
+Background music: https://www.free-stock-music.com/alexander-nakarada-tavern-loop-one.html
+Background bar chatter: https://pixabay.com/sound-effects/people-bar-chatter-5979/
+Bottle pickup: https://pixabay.com/sound-effects/film-special-effects-glasses-clinking-73558/
+Ticket fail sound: https://pixabay.com/sound-effects/film-special-effects-paper-rip-twice-252619/
+Ticket creation: https://pixabay.com/sound-effects/film-special-effects-paper-245786/
+Drink restart sound: https://pixabay.com/sound-effects/people-slurping-sound-335897/
+Lemon slice: https://www.freepik.com/free-vector/slice-lemon-icon-isolated-design_74221270.htm#fromView=keyword&page=1&position=4&uuid=38a847f8-c35b-4ed6-9b35-9a36dae52164&query=Cartoon+lemon+slice
+Ice cubes: https://www.freepik.com/free-vector/pile-ice-melting-white_6822595.htm#fromView=keyword&page=1&position=0&uuid=5b9d75ff-224e-4bb9-ac55-343a8d71775c&query=Cartoon+ice+cubes
+Mint leaves: https://www.freepik.com/free-vector/mint-vector-leaves-plant-mint-green-leaf-mint-organic-fresh-mint-illustration_11059478.htm#fromView=keyword&page=1&position=1&uuid=93fc11eb-55e2-42c0-a500-4e57d522054e&query=Mint+leaves+cartoon
+
+Spoon model: https://assetstore.unity.com/packages/3d/props/food/cutlery-silverware-pbr-106932
+Environment models: Fries and seagulls - Bar/interior Unity Asset store 
